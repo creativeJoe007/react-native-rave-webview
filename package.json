@@ -1,6 +1,6 @@
 {
   "name": "@creativejoe007/react-native-rave-webview",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A web view wrapper for Flutterwave Rave payment gateway with support for React Native v0.60 and doesn't require any react native linking. For more info, checkout (https://github.com/creativeJoe007/react-native-rave-webview) ",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/creativeJoe007/react-native-rave-webview#readme",
   "dependencies": {
-    "react-native-webview": "^7.4.3",
+    "react-native-webview": "^7.4.3"
   },
   "devDependencies": {}
 }
