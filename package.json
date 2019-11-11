@@ -28,8 +28,6 @@
   "homepage": "https://github.com/creativeJoe007/react-native-rave-webview#readme",
   "dependencies": {
     "react-native-webview": "^7.4.3",
-    "@types/react": "^16.8.6",
-    "@types/react-native": "^0.60.5"
   },
   "devDependencies": {}
 }
