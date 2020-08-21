@@ -1,8 +1,9 @@
 /**
- * Rave Web View
+ * Rave Web View for React Native
  * Author: Martins Joseph (creativeJoe007)
+ * Website: https://creativejoe007.com
  */
-import React, {useState} from 'react';
+import React, {useState, createRef} from 'react';
 import {Modal, Text, View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -12,8 +13,9 @@ let isLoading;
 let setIsLoading;
 
 export const RaveWebView = props => {
-  [showModal, setShowModal] = useState(false);
+  [showModal, setShowModal] = useState(props.active || false);
   [isLoading, setIsLoading] = useState(false);
+  let webView = createRef();
 
   let Rave = {
       html:  `
@@ -34,10 +36,10 @@ export const RaveWebView = props => {
                 var x = getpaidSetup({
                   PBFPubKey: API_publicKey,
                   amount: ${props.amount},
-                  customer_phone: "${(props.customerPhone || '')}",
-                  customer_email: "${(props.customerEmail || '')}",
+                  customer_phone: "${props.customerPhone || ''}",
+                  customer_email: "${props.customerEmail || ''}",
                   custom_description: "${props.contentDescription}",
-                  currency: "NGN",
+                  currency: "${props.currency || 'NGN'}",
                   txref: "${props.txref}",
                   meta: [{
                       metaname: "${props.billingName || props.customerEmail || ''}",
@@ -80,7 +82,7 @@ export const RaveWebView = props => {
                 javaScriptEnabled={true}
                 javaScriptEnabledAndroid={true}
                 originWhitelist={['*']}
-                ref={( webView ) => this.MyWebView = webView}
+                ref={webView}
                 source={Rave}
                 onMessage={(e)=>{messageRecived({onCancel: props.onCancel, onSuccess: props.onSuccess, onError: props.onError}, e.nativeEvent.data)}}
                 onLoadStart={() => setIsLoading(true)}
@@ -103,7 +105,6 @@ export const RaveWebView = props => {
                       paddingBottom: 7
                     }}
                     onPress={() => {
-                      setShowModal(false)
                       setIsLoading(false)
                       props.onCancel();
                     }}>
@@ -113,9 +114,13 @@ export const RaveWebView = props => {
               )
             }
         </Modal>
-        <TouchableOpacity style={props.btnStyles} onPress={() => setShowModal(true)}>
-          <Text style={props.textStyles}>{props.buttonText}</Text>
-        </TouchableOpacity>
+        {
+          typeof props.active == "undefined" && (
+           <TouchableOpacity style={props.btnStyles} onPress={() => setShowModal(true)}>
+             <Text style={props.textStyles}>{props.buttonText}</Text>
+           </TouchableOpacity>
+          )
+        }
       </View>
     );
 }
@@ -124,15 +129,12 @@ const messageRecived = async (props, data) => {
   var webResponse = JSON.parse(data);
   switch(webResponse.event){
     case 'cancelled':
-      await setShowModal(false);
       props.onCancel();
     break;
     case 'successful':
-      await setShowModal(false);
       props.onSuccess(webResponse);
       break;
     default:
-      await setShowModal(false);
       props.onError();
     break;
   }
