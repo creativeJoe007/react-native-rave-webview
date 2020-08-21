@@ -58,7 +58,6 @@ You can pull in @creativejoe007/react-native-rave-webview into app with the step
          return (
             <View  style={styles.container}>
               <RaveWebView
-                buttonText="PAY NOW"
                 raveKey="<your-api-key-here>"
                 amount={20000}
                 customerEmail={"hello@creativejoe007.com"}
