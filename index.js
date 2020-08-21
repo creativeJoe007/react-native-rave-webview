@@ -84,7 +84,7 @@ export const RaveWebView = props => {
                 originWhitelist={['*']}
                 ref={webView}
                 source={Rave}
-                onMessage={(e)=>{messageRecived({onCancel: props.onCancel, onSuccess: props.onSuccess, onError: props.onError}, e.nativeEvent.data)}}
+                onMessage={(e)=> messageRecived(props, e.nativeEvent.data)}
                 onLoadStart={() => setIsLoading(true)}
                 onLoadEnd={() => setIsLoading(false)}
               />
